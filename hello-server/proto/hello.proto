@@ -1,7 +1,13 @@
+// 这是说明我们使用的是proto3来实现的，之前是2，不过现在都是proto3了
 syntax = "proto3";
 
+// 这部分的内容是关于最后生成的go文件是哪个目录下，也就是哪个包下面，.表示当前目录生成
+// 如.;services就表示在当前目录下的service生成go文件，包名也就是service了
 option go_package = ".;service";
 
+//这里就是定义一个服务，这个服务需要有一个方法，这个方法接收客户端的参数(HelloRequest)，然后返回对应的响应(HelloResponse)。
+// 显而易见，定义了一个SayHello的service，有个rpc的方法，名为SayHello，发送一个HelloRequest，返回一个HelloResponse。
+// 可以类比java中 SayHello的class，然后有一个SayHello的方法，接收一个参数，返回一个对象
 service SayHello{
   rpc SayHello(HelloRequest)returns (HelloResponse){}
 }
