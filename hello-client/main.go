@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 	pb "grpc-study/hello-client/proto"
 	"log"
 )
@@ -12,8 +12,10 @@ import (
 func main() {
 	//连接到server端
 
+	creds, _ := credentials.NewClientTLSFromFile("E:\\workspaces\\goland\\grpc-study\\key\\public.pem", "www.baidu.club")
+
 	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	opts = append(opts, grpc.WithTransportCredentials(creds))
 	opts = append(opts, grpc.WithPerRPCCredentials(new(ClientTokenAuth)))
 
 	conn, err := grpc.Dial("127.0.0.1:8080", opts...)
@@ -41,5 +43,5 @@ func (c ClientTokenAuth) GetRequestMetadata(ctx context.Context, uri ...string) 
 }
 
 func (c ClientTokenAuth) RequireTransportSecurity() bool {
-	return false
+	return true
 }
